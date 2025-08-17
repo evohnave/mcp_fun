@@ -3,8 +3,12 @@
 from typing import Any
 import json
 import os
+from dotenv import load_dotenv
 import httpx
 from mcp.server.fastmcp import FastMCP
+
+# initialize env
+load_dotenv()
 
 # Initialize FastMCP server
 mcp = FastMCP("weather")
