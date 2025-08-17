@@ -3,6 +3,7 @@
 from typing import Any
 import json
 import os
+import sys
 from dotenv import load_dotenv
 import httpx
 from mcp.server.fastmcp import FastMCP
@@ -17,7 +18,11 @@ mcp = FastMCP("weather")
 NWS_API_BASE = "https://api.weather.gov"
 WEATHERSTACK_BASE = "https://api.weatherstack.com"
 USER_AGENT = "weather-app/1.0"
-WEATHERSTACK_ACCESS_KEY = os.getenv("WEATHERSTACK_ACCESS_KEY")
+
+if not (WEATHERSTACK_ACCESS_KEY := os.getenv("WEATHERSTACK_ACCESS_KEY")):
+    print("`WEATHERSTACK_ACCESS_KEY` was not found. "
+          "Did you edit your `.env` file?")
+    sys.exit(1)
 
 async def make_nws_request(url: str) -> dict[str, Any] | None:
     """Make a request to the NWS API with proper error handling."""
